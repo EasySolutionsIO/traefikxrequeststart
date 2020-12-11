@@ -32,7 +32,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 
 func (a *XRequestStart) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
-	req.Header.Set("X-Request-Start", time.Now().Unix())
+	req.Header.Set("X-Request-Start", string(time.Now().Unix()))
 
 	a.next.ServeHTTP(rw, req)
 }
