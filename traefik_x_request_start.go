@@ -5,6 +5,7 @@ import (
 	"context"
 	"net/http"
 	"time"
+	"fmt"
 )
 
 // Config the plugin configuration.
@@ -31,7 +32,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 func (a *XRequestStart) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	req.Header.Set("X-Request-Start", string(time.Now().Unix()))
+	req.Header.Set("X-Request-Start", fmt.Sprint(time.Now().Unix()))
 
 	a.next.ServeHTTP(rw, req)
 }
