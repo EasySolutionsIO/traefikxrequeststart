@@ -3,9 +3,9 @@ package traefikxrequeststart
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"time"
-	"fmt"
 )
 
 // Config the plugin configuration.
@@ -32,7 +32,15 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 func (a *XRequestStart) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	req.Header.Set("X-Request-Start", fmt.Sprint(time.Now().Unix()))
+	req.Header.Set("X-Request-Start", fmt.Sprint(makeTimestampMilli()))
 
 	a.next.ServeHTTP(rw, req)
+}
+
+func unixMilli(t time.Time) int64 {
+	return t.Round(time.Millisecond).UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
+}
+
+func makeTimestampMilli() int64 {
+	return unixMilli(time.Now())
 }
