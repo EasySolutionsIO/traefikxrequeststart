@@ -4,3 +4,6 @@ type: middleware
 import: github.com/EasySolutionsIO/traefikxrequeststart
 
 summary: 'Adds the X-Request-Start header which is used by multiple instrumentation tools'
+
+testData:
+  name: "traefikxrequeststart"
