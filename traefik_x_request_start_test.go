@@ -1,4 +1,4 @@
-package plugindemo_test
+package traefik_x_request_start_test
 
 import (
 	"context"
@@ -6,21 +6,16 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/traefik/plugindemo"
+	"github.com/EasySolutionsIO/traefik_x_request_start"
 )
 
-func TestDemo(t *testing.T) {
-	cfg := plugindemo.CreateConfig()
-	cfg.Headers["X-Host"] = "[[.Host]]"
-	cfg.Headers["X-Method"] = "[[.Method]]"
-	cfg.Headers["X-URL"] = "[[.URL]]"
-	cfg.Headers["X-URL"] = "[[.URL]]"
-	cfg.Headers["X-Demo"] = "test"
+func TestXRequestStart(t *testing.T) {
+	cfg := traefik_x_request_start.CreateConfig()
 
 	ctx := context.Background()
 	next := http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {})
 
-	handler, err := plugindemo.New(ctx, next, cfg, "demo-plugin")
+	handler, err := traefik_x_request_start.New(ctx, next, cfg, "traefik-x-request-plugin")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -34,10 +29,6 @@ func TestDemo(t *testing.T) {
 
 	handler.ServeHTTP(recorder, req)
 
-	assertHeader(t, req, "X-Host", "localhost")
-	assertHeader(t, req, "X-URL", "http://localhost")
-	assertHeader(t, req, "X-Method", "GET")
-	assertHeader(t, req, "X-Demo", "test")
 }
 
 func assertHeader(t *testing.T, req *http.Request, key, expected string) {
