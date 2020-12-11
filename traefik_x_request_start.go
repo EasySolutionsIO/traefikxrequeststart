@@ -1,5 +1,5 @@
-// Package plugindemo a demo plugin.
-package traefik_x_request_start
+// Package traefikxrequeststart a plugin for traefik which adds X-Request-Start header.
+package traefikxrequeststart
 
 import (
 	"context"
@@ -16,7 +16,7 @@ func CreateConfig() *Config {
 	return &Config{}
 }
 
-// Demo a Demo plugin.
+// XRequestStart a traefik plugin.
 type XRequestStart struct {
 	next http.Handler
 	name string
@@ -31,7 +31,6 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 func (a *XRequestStart) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-
 	req.Header.Set("X-Request-Start", string(time.Now().Unix()))
 
 	a.next.ServeHTTP(rw, req)

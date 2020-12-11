@@ -1,4 +1,4 @@
-package traefik_x_request_start_test
+package traefikxrequeststart_test
 
 import (
 	"context"
@@ -6,16 +6,16 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/EasySolutionsIO/traefik_x_request_start"
+	"github.com/EasySolutionsIO/traefikxrequeststart"
 )
 
 func TestXRequestStart(t *testing.T) {
-	cfg := traefik_x_request_start.CreateConfig()
+	cfg := traefikxrequeststart.CreateConfig()
 
 	ctx := context.Background()
 	next := http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {})
 
-	handler, err := traefik_x_request_start.New(ctx, next, cfg, "traefik-x-request-plugin")
+	handler, err := traefikxrequeststart.New(ctx, next, cfg, "traefik-x-request-plugin")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -28,13 +28,4 @@ func TestXRequestStart(t *testing.T) {
 	}
 
 	handler.ServeHTTP(recorder, req)
-
-}
-
-func assertHeader(t *testing.T, req *http.Request, key, expected string) {
-	t.Helper()
-
-	if req.Header.Get(key) != expected {
-		t.Errorf("invalid header value: %s", req.Header.Get(key))
-	}
 }
